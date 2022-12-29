@@ -24,7 +24,4 @@ public class CustomerEntity {
 
     @Column(unique = true, nullable = false)
     private String phoneNumber;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customerEntity")
-    private Set<ReceiptEntity> receiptSet = new HashSet<>();
 }

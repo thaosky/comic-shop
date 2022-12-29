@@ -29,7 +29,4 @@ public class ComicEntity {
     // Lưu 1 ảnh bìa
     private String path;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "comicEntity")
-    private Set<ReceiptComicEntity> receiptComicEntities = new HashSet<>();
-
 }

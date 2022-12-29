@@ -18,13 +18,9 @@ public class ReceiptComicEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "receipt_id")
-    ReceiptEntity receiptEntity;
+    Long receipt_id;
 
-    @ManyToOne
-    @JoinColumn(name = "comic_id")
-    ComicEntity comicEntity;
+    Long comic_id;
 
     int quantity;
 }

@@ -1,10 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.ComicEntity;
-import com.example.demo.entity.CustomerEntity;
 import com.example.demo.exception.BusinessException;
 import com.example.demo.service.ComicService;
-import com.example.demo.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -31,14 +29,14 @@ public class ComicController {
 
     @PostMapping
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<ComicEntity> createCustomer(@RequestBody @Valid ComicEntity comic) {
+    public ResponseEntity<ComicEntity> create(@RequestBody ComicEntity comic) {
         ComicEntity customerEntity = comicService.create(comic);
         return new ResponseEntity<>(customerEntity, HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<ComicEntity> updateCustomer(@RequestBody @Valid ComicEntity comic, @PathVariable Long id) throws BusinessException {
+    public ResponseEntity<ComicEntity> update(@RequestBody ComicEntity comic, @PathVariable Long id) throws BusinessException {
          ComicEntity res = comicService.update(id, comic);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }

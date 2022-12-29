@@ -1,26 +1,17 @@
-package com.example.demo.entity;
+package com.example.demo.model.request.receipt;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
-@Table(name = "receipt")
+import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class ReceiptEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Receipt {
     private Date startDate;
     private Date endDate;
 
@@ -28,6 +19,6 @@ public class ReceiptEntity {
     private Long deposit;
     private Long fine;
     private Long rentalFee;
-    private Long customerId;
-
+    private String customer_id;
+    private List<ComicOrder> list;
 }
