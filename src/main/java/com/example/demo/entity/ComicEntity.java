@@ -7,24 +7,29 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-@Table(name = "customer")
+@Table(name = "comic")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class CustomerEntity {
+public class ComicEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String sex;
+    private String author;
+    private String publisher;
+    private String category;
+    private Long price;
 
-    @Column(unique = true, nullable = false)
-    private String phoneNumber;
+    // Lưu 1 ảnh bìa
+    private String path;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customerEntity")
-    private Set<ReceiptEntity> receiptSet = new HashSet<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "comicEntity")
+    private Set<ReceiptComicEntity> receiptComicEntities = new HashSet<>();
+
 }

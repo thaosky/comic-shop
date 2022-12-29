@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.ComicEntity;
 import com.example.demo.entity.CustomerEntity;
 import com.example.demo.exception.BusinessException;
+import com.example.demo.service.ComicService;
 import com.example.demo.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -15,37 +17,37 @@ import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/customers")
-public class CustomerController {
-
+@RequestMapping("/comics")
+public class ComicController {
     @Autowired
-    CustomerService customerService;
+    ComicService comicService;
 
     @GetMapping
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<List<CustomerEntity>> getListCustomer(@Param("name") String name, @Param("phoneNumber") String phoneNumber) {
-        List<CustomerEntity> list = customerService.findListCustomer(name, phoneNumber);
+    public ResponseEntity<List<ComicEntity>> getList(@Param("name") String name) {
+        List<ComicEntity> list = comicService.getList(name);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @PostMapping
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<CustomerEntity> createCustomer(@RequestBody @Valid CustomerEntity customer) throws BusinessException {
-        CustomerEntity customerEntity = customerService.createCustomer(customer);
+    public ResponseEntity<ComicEntity> createCustomer(@RequestBody @Valid ComicEntity comic) {
+        ComicEntity customerEntity = comicService.create(comic);
         return new ResponseEntity<>(customerEntity, HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<CustomerEntity> updateCustomer(@RequestBody @Valid CustomerEntity customer, @PathVariable Long id) throws BusinessException {
-        CustomerEntity customerEntity = customerService.updateCustomer(id, customer);
-        return new ResponseEntity<>(customerEntity, HttpStatus.OK);
+    public ResponseEntity<ComicEntity> updateCustomer(@RequestBody @Valid ComicEntity comic, @PathVariable Long id) throws BusinessException {
+         ComicEntity res = comicService.update(id, comic);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<CustomerEntity> deleteCustomer(@PathVariable Long id) throws BusinessException {
-        customerService.deleteCustomer(id);
+    public ResponseEntity<?> deleteCustomer(@PathVariable Long id) throws BusinessException {
+        comicService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
+
