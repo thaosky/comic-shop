@@ -45,4 +45,12 @@ public class ReceiptService {
 
         return receipt;
     }
+
+    public List<ReceiptEntity> getReceiptByCustomerId(Long id) {
+       return receiptRepository.findAllByCustomerId(id);
+    }
+
+    public ReceiptEntity getReceiptById(Long id) {
+        return receiptRepository.findById(id).get();
+    }
 }
