@@ -27,6 +27,7 @@ public class ComicController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
+
     @PostMapping
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<ComicEntity> create(@RequestBody ComicEntity comic) {

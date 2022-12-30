@@ -25,7 +25,8 @@ public class ComicEntity {
     private String publisher;
     private String category;
     private Long price;
-
+    private Integer quantity;
+    private String position;
     // Lưu 1 ảnh bìa
     private String path;
 
