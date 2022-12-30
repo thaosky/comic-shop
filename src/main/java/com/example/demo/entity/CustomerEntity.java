@@ -20,7 +20,7 @@ public class CustomerEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String sex;
+    private String gender;
 
     @Column(unique = true, nullable = false)
     private String phoneNumber;
