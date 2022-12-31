@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface ComicDetailRepository extends JpaRepository<ComicDetailEntity, Long> {
-    List<ComicDetailEntity> findAllByComicIdAndAvailable(Long comicId, boolean available);
-    List<ComicDetailEntity> findAllByComicId(Long comicId);
+    List<ComicDetailEntity> findAllByComicIdAndAvailableOrderByIdDesc(Long comicId, boolean available);
+    List<ComicDetailEntity> findAllByComicIdOrderByIdDesc(Long comicId);
     Optional<ComicDetailEntity> findTopByComicIdOrderByIdDesc(Long comicId);
 }

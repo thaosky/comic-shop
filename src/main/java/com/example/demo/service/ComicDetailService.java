@@ -57,9 +57,9 @@ public class ComicDetailService {
 
     public List<ComicDetailEntity> listComicDetails(Long comicId, Boolean available) {
         if (available == null) {
-            return comicDetailRepository.findAllByComicId(comicId);
+            return comicDetailRepository.findAllByComicIdOrderByIdDesc(comicId);
         } else {
-            return comicDetailRepository.findAllByComicIdAndAvailable(comicId, available);
+            return comicDetailRepository.findAllByComicIdAndAvailableOrderByIdDesc(comicId, available);
         }
     }
 }
