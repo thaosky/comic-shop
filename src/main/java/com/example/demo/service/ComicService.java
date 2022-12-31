@@ -15,9 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.counting;
 
 @Service
 public class ComicService {
@@ -26,7 +23,7 @@ public class ComicService {
     @Autowired
     ComicDetailRepository comicDetailRepository;
 
-    public Page<ComicEntity> getList(String name, String category, String author,
+    public Page<ComicEntity> getList(String name, String comicCode, String category, String author,
                                      String publisher, Integer pageNo, Integer pageSize,
                                      String sort, String sortName) {
         Sort sortable = Sort.by("id").ascending();
@@ -50,7 +47,7 @@ public class ComicService {
             author = author.toUpperCase();
         }
 
-        return comicRepository.listComic(name, category, author, publisher, pageable);
+        return comicRepository.listComic(name,comicCode, category, author, publisher, pageable);
     }
 
     public ComicEntity create(ComicEntity comic) {

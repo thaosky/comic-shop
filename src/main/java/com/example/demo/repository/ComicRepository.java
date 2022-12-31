@@ -18,13 +18,14 @@ public interface ComicRepository extends JpaRepository<ComicEntity, Long> {
             "where (UPPER(c.name) like CONCAT('%',:name,'%') or :name is null)\n" +
             "  and (UPPER(c.author) like CONCAT('%',:author,'%') or :author is null)\n" +
             "  and (UPPER(c.category) like CONCAT('%',:category,'%') or :category is null)\n" +
+            "  and (UPPER(c.comicCode) like CONCAT('%',:comicCode,'%') or :category is null)\n" +
             "  and (UPPER(c.publisher) like CONCAT('%',:publisher,'%') or :publisher is null)",
     countQuery = "select count(*)\n" +
             "from comic c\n" +
             "where (UPPER(c.name) like CONCAT('%',:name,'%') or :name is null)\n" +
             "  and (UPPER(c.author) like CONCAT('%',:author,'%') or :author is null)\n" +
             "  and (UPPER(c.category) like CONCAT('%',:category,'%') or :category is null)\n" +
-            "  and (UPPER(c.publisher) like CONCAT('%',:publisher,'%') or :publisher is null)"
-    )
-    Page<ComicEntity> listComic(String name, String category, String author, String publisher, Pageable pageable);
+            "  and (UPPER(c.comicCode) like CONCAT('%',:comicCode,'%') or :category is null)\n" +
+            "  and (UPPER(c.publisher) like CONCAT('%',:publisher,'%') or :publisher is null)")
+    Page<ComicEntity> listComic(String name, String comicCode, String category, String author, String publisher, Pageable pageable);
 }

@@ -23,13 +23,16 @@ public class ComicController {
 
     @GetMapping
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<Page<ComicEntity>> getList(@Param("name") String name, @Param("category") String category,
-                                                     @Param("author") String author, @Param("publisher") String publisher,
+    public ResponseEntity<Page<ComicEntity>> getList(@Param("name") String name,
+                                                     @Param("comicCode") String comicCode,
+                                                     @Param("category") String category,
+                                                     @Param("author") String author,
+                                                     @Param("publisher") String publisher,
                                                      @Param("pageSize") Integer pageSize,
                                                      @Param("pageNo") Integer pageNo,
                                                      @Param("sort") String sort,
                                                      @Param("sortName") String sortName) {
-        Page<ComicEntity> list = comicService.getList(name, category, author, publisher, pageNo, pageSize, sort, sortName);
+        Page<ComicEntity> list = comicService.getList(name, comicCode, category, author, publisher, pageNo, pageSize, sort, sortName);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
@@ -44,7 +47,7 @@ public class ComicController {
     @PostMapping("/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<ComicEntity> update(@RequestBody ComicEntity comic, @PathVariable Long id) throws BusinessException {
-         ComicEntity res = comicService.update(id, comic);
+        ComicEntity res = comicService.update(id, comic);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
