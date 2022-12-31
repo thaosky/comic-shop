@@ -70,14 +70,19 @@ public class ComicService {
 
     public void delete(Long id) throws BusinessException {
         Optional<ComicEntity> optional = comicRepository.findById(id);
-        ComicEntity comicEntity = optional.orElseThrow(() -> new BusinessException("Không tìm thấy truyện"));
+        ComicEntity comicEntity = optional.orElseThrow(() -> new BusinessException("Không tìm thấy đầu truyện"));
         comicRepository.deleteById(id);
     }
 
     public ComicEntity update(Long id, ComicEntity comic) throws BusinessException {
         Optional<ComicEntity> optional = comicRepository.findById(id);
-        ComicEntity customerEntity = optional.orElseThrow(() -> new BusinessException("Không tìm thấy truyện"));
+        ComicEntity customerEntity = optional.orElseThrow(() -> new BusinessException("Không tìm thấy đầu truyện"));
         BeanUtils.copyProperties(comic, customerEntity, "id");
         return comicRepository.save(customerEntity);
+    }
+
+    public ComicEntity getById(Long id) throws BusinessException {
+        Optional<ComicEntity> optional = comicRepository.findById(id);
+        return optional.orElseThrow(() -> new BusinessException("Không tìm thấy đầu truyện"));
     }
 }

@@ -48,6 +48,13 @@ public class ComicController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<ComicEntity> getById(@PathVariable Long id) throws BusinessException {
+        ComicEntity res = comicService.getById(id);
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> deleteCustomer(@PathVariable Long id) throws BusinessException {
