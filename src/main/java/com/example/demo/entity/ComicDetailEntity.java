@@ -20,4 +20,5 @@ public class ComicDetailEntity {
 
     private String status; // Cu moi rach nat
     private Long comicId;
+    private boolean available = true;
 }

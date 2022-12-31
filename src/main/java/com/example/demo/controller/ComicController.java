@@ -4,6 +4,7 @@ import com.example.demo.entity.ComicEntity;
 import com.example.demo.exception.BusinessException;
 import com.example.demo.service.ComicService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,13 @@ public class ComicController {
 
     @GetMapping
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<List<ComicEntity>> getList(@Param("name") String name) {
-        List<ComicEntity> list = comicService.getList(name);
+    public ResponseEntity<Page<ComicEntity>> getList(@Param("name") String name, @Param("category") String category,
+                                                     @Param("author") String author, @Param("publisher") String publisher,
+                                                     @Param("pageSize") Integer pageSize,
+                                                     @Param("pageNo") Integer pageNo,
+                                                     @Param("sort") String sort,
+                                                     @Param("sortName") String sortName) {
+        Page<ComicEntity> list = comicService.getList(name, category, author, publisher, pageNo, pageSize, sort, sortName);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

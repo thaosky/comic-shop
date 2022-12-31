@@ -19,7 +19,7 @@ public class CustomerService {
     CustomerRepository customerRepository;
 
     public Page<CustomerEntity> findListCustomer(String name, String phoneNumber, Integer pageSize, Integer pageNo, String sortName, String sort) {
-        Sort sortable = Sort.by("id").ascending();;
+        Sort sortable = Sort.by("id").descending();;
         if(sortName != null && sort.equals("ASC")) {
             sortable = Sort.by(sortName).ascending();;
         } else if (sortName != null && sort.equals("DESC")) {

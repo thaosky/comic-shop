@@ -16,7 +16,10 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
 
     @Query(nativeQuery = true, value = "select * from customer c\n" +
             "where (UPPER(c.name) like CONCAT('%',:name,'%') or :name is null)\n" +
-            "and (c.phone_number like CONCAT('%',:phoneNumber,'%') or :phoneNumber is null)")
+            "and (c.phone_number like CONCAT('%',:phoneNumber,'%') or :phoneNumber is null)",
+    countQuery ="select count(*) from customer c\n" +
+            "where (UPPER(c.name) like CONCAT('%',:name,'%') or :name is null)\n" +
+            "and (c.phone_number like CONCAT('%',:phoneNumber,'%') or :phoneNumber is null)" )
     Page<CustomerEntity> listCustomer(String phoneNumber, String name, Pageable pageable);
 
     boolean existsByPhoneNumber(String phone);
