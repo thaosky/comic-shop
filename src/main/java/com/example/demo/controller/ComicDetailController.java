@@ -27,12 +27,12 @@ public class ComicDetailController {
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
-    // Khi đã cho mượn hoặc khi sách hư hỏng nặng
-    @DeleteMapping("/{id}")
+
+    @PostMapping("/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<?> delete(@PathVariable Long id) throws BusinessException {
-        comicDetailService.softDelete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<ComicDetailEntity> update(@PathVariable Long id, @RequestBody ComicDetailEntity comicDetail) throws BusinessException {
+        ComicDetailEntity comicDetailEntity = comicDetailService.update(id, comicDetail);
+        return new ResponseEntity<ComicDetailEntity>(comicDetailEntity, HttpStatus.NO_CONTENT);
     }
 
 }

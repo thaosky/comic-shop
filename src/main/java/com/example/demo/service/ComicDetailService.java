@@ -33,8 +33,18 @@ public class ComicDetailService {
         return comicDetailRepository.save(comicDetail);
     }
 
-    public void softDelete(Long id) {
+    public ComicDetailEntity update(Long id, ComicDetailEntity comicDetail) throws BusinessException {
+        // Update lại bảng comic
+        if (!comicDetail.isAvailable()) {
+            Optional<ComicEntity> optional = comicRepository.findById(comicDetail.getComicId());
+            ComicEntity comicEntity = optional.orElseThrow(() -> new BusinessException("Không tìm thấy truyện"));
+            comicEntity.setQuantity(comicEntity.getQuantity() - 1);
+            comicRepository.save(comicEntity);
+        }
+
+        // Update bảng comic detail
         ComicDetailEntity comicDetailEntity = comicDetailRepository.getById(id);
-        comicDetailEntity.setAvailable(false);
+        BeanUtils.copyProperties(comicDetail, comicDetailEntity, "id");
+        return comicDetailRepository.save(comicDetailEntity);
     }
 }
