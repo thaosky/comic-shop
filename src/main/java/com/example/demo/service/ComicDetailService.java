@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,5 +47,13 @@ public class ComicDetailService {
         ComicDetailEntity comicDetailEntity = comicDetailRepository.getById(id);
         BeanUtils.copyProperties(comicDetail, comicDetailEntity, "id");
         return comicDetailRepository.save(comicDetailEntity);
+    }
+
+    public List<ComicDetailEntity> listComicDetails(Long comicId, Boolean available) {
+        if (available == null) {
+            return comicDetailRepository.findAllByComicId(comicId);
+        } else {
+            return comicDetailRepository.findAllByComicIdAndAvailable(comicId, available);
+        }
     }
 }
