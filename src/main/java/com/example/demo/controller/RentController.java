@@ -1,8 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.ComicEntity;
 import com.example.demo.model.request.receipt.Receipt;
-import com.example.demo.service.ReceiptService;
+import com.example.demo.service.RentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,16 +10,16 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/receipts")
-public class ReceiptController {
+@RequestMapping("/rent")
+public class RentController {
 
     @Autowired
-    ReceiptService receiptService;
+    RentService rentService;
 
     @PostMapping
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<Receipt> createCustomer(@RequestBody Receipt receipt ) {
-        Receipt res = receiptService.create(receipt);
+    public ResponseEntity<Receipt> createReceipt(@RequestBody Receipt receipt ) {
+        Receipt res = rentService.create(receipt);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 }

@@ -21,6 +21,7 @@ public class ComicEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String comicCode;
     private String author;
     private String publisher;
     private String category;

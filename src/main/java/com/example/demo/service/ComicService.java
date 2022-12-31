@@ -13,9 +13,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.counting;
 
 @Service
 public class ComicService {
@@ -52,7 +54,19 @@ public class ComicService {
     }
 
     public ComicEntity create(ComicEntity comic) {
+        // gen comic code
+        Date now = new Date();
+        SimpleDateFormat ft = new SimpleDateFormat("ddMMyy");
+        String time = ft.format(now);
+        String[] words = comic.getName().split(" ");
+        String comicCode = "";
+        for (String s : words) {
+            comicCode += s.charAt(0);
+        }
+        comicCode = comicCode.toUpperCase() + time;
+
         ComicEntity comicEntity = comicRepository.save(comic);
+        comicEntity.setComicCode(comicCode);
         Integer quantity = comicEntity.getQuantity();
         List<ComicDetailEntity> list = new ArrayList<>();
         if (quantity != null && quantity > 0) {
