@@ -74,7 +74,7 @@ public class ComicService {
                 ComicDetailEntity comicDetailEntity = new ComicDetailEntity();
                 comicDetailEntity.setComicId(comicEntity.getId());
                 comicDetailEntity.setStatus("Sách mới");
-
+                comicDetailEntity.setComicDetailCode(comicEntity.getComicCode() + "_" + (i + 1));
                 list.add(comicDetailEntity);
             }
         }

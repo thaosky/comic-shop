@@ -19,7 +19,7 @@ public class ComicDetailEntity {
     private Long id;
 
     private String status; // Cu moi rach nat
-    private String comicDetailCode; // Cu moi rach nat
+    private String comicDetailCode;
     private Long comicId;
     private boolean available = true;
 }

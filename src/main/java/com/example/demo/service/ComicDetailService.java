@@ -28,8 +28,14 @@ public class ComicDetailService {
         comicEntity.setQuantity(comicEntity.getQuantity() + 1);
         comicRepository.save(comicEntity);
 
+        // Tìm phần tử cuối cùng đã được thêm
+        ComicDetailEntity oldest = comicDetailRepository.findTopByComicIdOrderByIdDesc(comicEntity.getId()).get();
+        String[] oldestCodeArr = oldest.getComicDetailCode().split("_");
+        int stt = Integer.parseInt(oldestCodeArr[1]) + 1;
+
         ComicDetailEntity comicDetailEntity = new ComicDetailEntity();
         BeanUtils.copyProperties(comicDetail, comicDetailEntity);
+        comicDetailEntity.setComicDetailCode(oldestCodeArr[0] + "_" + stt);
 
         return comicDetailRepository.save(comicDetail);
     }
