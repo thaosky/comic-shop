@@ -35,6 +35,13 @@ public class RentController {
         Rent res = rentService.updateRent(rent, id);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
+    // Get all hóa đơn
+    @GetMapping()
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<List<Rent>> getAllReceipt() {
+        List<Rent> res = rentService.getAllReceipt();
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
 
     // Get hóa đơn by rent id
     @GetMapping("/{id}")

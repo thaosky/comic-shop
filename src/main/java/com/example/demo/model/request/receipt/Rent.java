@@ -1,5 +1,6 @@
 package com.example.demo.model.request.receipt;
 
+import com.example.demo.entity.CustomerEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class Rent {
     private Long deposit;
     private Long fine;
     private Long rentalFee;
+    private CustomerEntity customerEntity;
     private Long customerId;
     private Boolean renting;
     private List<Comic> comicList;
