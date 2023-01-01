@@ -37,6 +37,9 @@ public class ComicService {
         if (name != null) {
             name = name.toUpperCase();
         }
+        if (comicCode != null) {
+            comicCode = comicCode.toUpperCase();
+        }
         if (category != null) {
             category = category.toUpperCase();
         }
@@ -47,7 +50,7 @@ public class ComicService {
             author = author.toUpperCase();
         }
 
-        return comicRepository.listComic(name,comicCode, category, author, publisher, pageable);
+        return comicRepository.listComic(name, comicCode, category, author, publisher, pageable);
     }
 
     public ComicEntity create(ComicEntity comic) {

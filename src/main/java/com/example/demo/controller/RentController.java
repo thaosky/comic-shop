@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.request.receipt.Receipt;
+import com.example.demo.model.request.receipt.Rent;
 import com.example.demo.service.RentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,10 +16,12 @@ public class RentController {
     @Autowired
     RentService rentService;
 
+
+    // Thuê sách
     @PostMapping
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<Receipt> createReceipt(@RequestBody Receipt receipt ) {
-        Receipt res = rentService.create(receipt);
+    public ResponseEntity<Rent> createReceipt(@RequestBody Rent rent) {
+        Rent res = rentService.create(rent);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 }

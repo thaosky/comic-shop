@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ComicOrder {
-    private Long comicId;
-    private Integer quantity;
+public class ComicDetail {
+    private Long comicDetailId;
+
 }
