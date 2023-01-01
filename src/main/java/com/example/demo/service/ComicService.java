@@ -56,7 +56,7 @@ public class ComicService {
     public ComicEntity create(ComicEntity comic) {
         // gen comic code
         Date now = new Date();
-        SimpleDateFormat ft = new SimpleDateFormat("ddMMyy");
+        SimpleDateFormat ft = new SimpleDateFormat("ssmmHHddMMyy");
         String time = ft.format(now);
         String[] words = comic.getName().split(" ");
         String comicCode = "";

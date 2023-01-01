@@ -58,7 +58,7 @@ public class CustomerService {
 
     public void deleteCustomer(Long id) throws BusinessException {
         Optional<CustomerEntity> optional = customerRepository.findById(id);
-        CustomerEntity customerEntity = optional.orElseThrow(() -> new BusinessException("Không tìm thấy khách hàng"));
+        optional.orElseThrow(() -> new BusinessException("Không tìm thấy khách hàng"));
         customerRepository.deleteById(id);
     }
 
@@ -70,13 +70,10 @@ public class CustomerService {
 
     public Page<CustomerEntity> getCustomerRenting(Integer pageSize, Integer pageNo, String sort, String sortName) {
         Sort sortable = Sort.by("id").descending();
-        ;
         if (sortName != null && sort.equals("ASC")) {
             sortable = Sort.by(sortName).ascending();
-            ;
         } else if (sortName != null && sort.equals("DESC")) {
             sortable = Sort.by(sortName).descending();
-            ;
         }
         Pageable pageable = PageRequest.of(pageNo, pageSize, sortable);
         Page<CustomerEntity> page = customerRepository.findCustomerRenting(pageable);
