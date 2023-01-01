@@ -36,7 +36,6 @@ public class RentController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
-
     // Get hóa đơn by rent id
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -46,7 +45,7 @@ public class RentController {
     }
 
     // Get hóa đơn by customer id
-    @GetMapping("/customer/{id}")
+    @GetMapping("/customer/{customerId}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<List<Rent>> getReceiptByCustomerId(@PathVariable Long customerId) {
         List<Rent> res = rentService.getReceiptByCustomerId(customerId);
