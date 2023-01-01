@@ -24,4 +24,15 @@ public class RentController {
         Rent res = rentService.create(rent);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
+
+    // Trả sách
+//    @PostMapping
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    public ResponseEntity<Rent> createReceipt(@RequestBody Rent rent) {
+//        Rent res = rentService.create(rent);
+//        return new ResponseEntity<>(res, HttpStatus.CREATED);
+//    }
+
+
+    //  Sửa hóa đơn
 }
