@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Rent {
+    private Long id;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date startDate; // Ngày thuê
 
