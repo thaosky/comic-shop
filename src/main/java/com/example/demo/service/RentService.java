@@ -71,7 +71,7 @@ public class RentService {
         }
         comicDetailRepository.saveAll(comicDetailEntityListToSave);
         rentComicDetailRepository.saveAll(rentComicDetailEntityList);
-
+        rent.setId(saved.getId());
         return rent;
     }
 
