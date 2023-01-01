@@ -131,6 +131,7 @@ public class RentService {
                 for (ComicDetailEntity item : comicDetailEntityList) {
                     ComicDetail comicDetail = new ComicDetail();
                     comicDetail.setComicDetailId(item.getId());
+                    comicDetail.setComicDetailCode(item.getComicDetailCode());
                     comicDetailList.add(comicDetail);
                 }
                 comic.setComicDetailList(comicDetailList);

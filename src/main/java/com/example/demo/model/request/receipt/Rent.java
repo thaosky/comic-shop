@@ -14,10 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Rent {
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date startDate; // Ngày thuê
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date endDate; // Ngày trả
     private Integer rentDays;
     private Long deposit;
