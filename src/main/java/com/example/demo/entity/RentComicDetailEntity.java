@@ -7,20 +7,19 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Table(name = "rent_comic")
+@Table(name = "rent_comic_detail")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class RentComicEntity {
+public class RentComicDetailEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     Long rentId;
 
-    Long comicId;
+    Long comicDetailId;
 
-    int quantity;
 }

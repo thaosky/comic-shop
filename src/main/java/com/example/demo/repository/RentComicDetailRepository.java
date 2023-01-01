@@ -1,9 +1,9 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.RentComicEntity;
+import com.example.demo.entity.RentComicDetailEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RentComicRepository extends JpaRepository<RentComicEntity, Long> {
+public interface RentComicDetailRepository extends JpaRepository<RentComicDetailEntity, Long> {
 }

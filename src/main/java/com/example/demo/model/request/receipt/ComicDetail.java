@@ -11,5 +11,4 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ComicDetail {
     private Long comicDetailId;
-
 }

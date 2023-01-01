@@ -10,11 +10,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Rent {
-    private Integer rentDays;
-    private Long deposit;
-    private Long fine;
-    private Long rentalFee;
-    private Long customerId;
-    private List<Comic> comicList;
+public class Comic {
+    private List<ComicDetail> comicDetailList;
+    private Long comicId;
 }

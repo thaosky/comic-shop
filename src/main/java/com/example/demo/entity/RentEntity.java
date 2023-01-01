@@ -19,13 +19,14 @@ public class RentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date startDate;
-    private Date endDate;
+    private Date startDate; // Ngày thuê
+    private Date endDate; // Ngày trả
 
-    private Integer rentDays;
-    private Long deposit;
-    private Long fine;
-    private Long rentalFee;
+    private Integer rentDays;// số ngày thuê
+    private Long deposit; // Tiền cọc
+    private Long fine; // Tiền phạt
+    private Long rentalFee; // Phí thuê
     private Long customerId;
+    private Boolean renting; // true: đang thuê, false: đã trả
 
 }
