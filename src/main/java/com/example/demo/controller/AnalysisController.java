@@ -23,9 +23,9 @@ public class AnalysisController {
     @Autowired
     private ComicDetailService comicDetailService;
 
-    // Thống kê các truyện được thuê nhiều nhất từ trc đến nay
+    // Thống kê top 5 truyện được thuê nhiều nhất từ trc đến nay
 
-    // Thống kê các truyện được thuê nhiều nhất trong tháng
+    // Thống kê top 5 truyện được thuê nhiều nhất trong tháng
 
     // Thống kê danh sách các truyện chưa trả
     @GetMapping("/comic-detail-renting")

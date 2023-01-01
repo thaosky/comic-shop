@@ -76,11 +76,94 @@ public class RentService {
         return rent;
     }
 
-    public List<RentEntity> getReceiptByCustomerId(Long id) {
-        return rentRepository.findAllByCustomerId(id);
+    public Rent updateRent(Rent rent, Long id) {
+        // Update ngày trả, trạng thái thuê vào bảng Rent
+        RentEntity rentEntity = rentRepository.getById(id);
+        BeanUtils.copyProperties(rent, rentEntity);
+        if (!rent.getRenting()) {
+            Date now = new Date();
+            rentEntity.setEndDate(now);
+            rentEntity.setRenting(false);
+        }
+        RentEntity saved = rentRepository.save(rentEntity);
+
+        // Update
+        // Lưu lại quantity vào bảng comic
+        List<Comic> comicList = rent.getComicList();
+        List<ComicEntity> comicListToSave = new ArrayList<>();
+        ComicEntity comicEntity;
+        for (Comic comic : comicList) {
+            comicEntity = comicRepository.getById(comic.getComicId());
+            comicEntity.setQuantity(comicEntity.getQuantity() + comic.getComicDetailList().size());
+            comicListToSave.add(comicEntity);
+        }
+        comicRepository.saveAll(comicListToSave);
+
+        // Update bảng detail comic đang thuê => Không thuê
+        ComicDetailEntity comicDetailEntity;
+        List<ComicDetailEntity> comicDetailEntityListToSave = new ArrayList<>();
+        for (Comic comic : comicList) {
+            for (ComicDetail comicDetail : comic.getComicDetailList()) {
+                comicDetailEntity = comicDetailRepository.getById(comicDetail.getComicDetailId());
+                comicDetailEntity.setAvailable(true);
+                comicDetailEntityListToSave.add(comicDetailEntity);
+            }
+        }
+        comicDetailRepository.saveAll(comicDetailEntityListToSave);
+
+        return rent;
     }
 
-    public RentEntity getReceiptById(Long id) {
-        return rentRepository.findById(id).get();
+    public List<Rent> getReceiptByCustomerId(Long customerId) {
+        List<Rent> rentList = new ArrayList<>();
+        List<RentEntity> rentEntityList = rentRepository.findRentByCustomerId(customerId);
+        for (RentEntity rentEntity : rentEntityList) {
+            Rent res = new Rent();
+            BeanUtils.copyProperties(rentEntity, res);
+            List<Comic> comicList = new ArrayList<>();
+            List<ComicEntity> comicEntityList = comicRepository.listComicByRentId(rentEntity.getId());
+            for (ComicEntity comicEntity : comicEntityList) {
+                Comic comic = new Comic();
+                comic.setComicId(comicEntity.getId());
+                comic.setComicName(comicEntity.getName());
+                List<ComicDetail> comicDetailList = new ArrayList<>();
+                List<ComicDetailEntity> comicDetailEntityList = comicDetailRepository.findComicDetailByRentIdAndComicId(rentEntity.getId(), comicEntity.getId());
+                for (ComicDetailEntity item : comicDetailEntityList) {
+                    ComicDetail comicDetail = new ComicDetail();
+                    comicDetail.setComicDetailId(item.getId());
+                    comicDetailList.add(comicDetail);
+                }
+                comic.setComicDetailList(comicDetailList);
+                comicList.add(comic);
+            }
+            res.setComicList(comicList);
+            rentList.add(res);
+        }
+
+        return rentList;
+    }
+
+    public Rent getReceiptById(Long rentId) {
+        Rent res = new Rent();
+        RentEntity rentEntity = rentRepository.findById(rentId).get();
+        BeanUtils.copyProperties(rentEntity, res);
+        List<Comic> comicList = new ArrayList<>();
+        List<ComicEntity> comicEntityList = comicRepository.listComicByRentId(rentId);
+        for (ComicEntity comicEntity : comicEntityList) {
+            Comic comic = new Comic();
+            comic.setComicId(comicEntity.getId());
+            comic.setComicName(comicEntity.getName());
+            List<ComicDetail> comicDetailList = new ArrayList<>();
+            List<ComicDetailEntity> comicDetailEntityList = comicDetailRepository.findComicDetailByRentIdAndComicId(rentId, comicEntity.getId());
+            for (ComicDetailEntity item : comicDetailEntityList) {
+                ComicDetail comicDetail = new ComicDetail();
+                comicDetail.setComicDetailId(item.getId());
+                comicDetailList.add(comicDetail);
+            }
+            comic.setComicDetailList(comicDetailList);
+            comicList.add(comic);
+        }
+        res.setComicList(comicList);
+        return res;
     }
 }

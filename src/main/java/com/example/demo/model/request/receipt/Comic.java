@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,4 +14,5 @@ import java.util.List;
 public class Comic {
     private List<ComicDetail> comicDetailList;
     private Long comicId;
+    private String comicName;
 }

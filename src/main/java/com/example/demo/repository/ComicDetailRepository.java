@@ -28,4 +28,13 @@ public interface ComicDetailRepository extends JpaRepository<ComicDetailEntity, 
                     "         left join rent r on rcd.rent_id = r.id\n" +
                     "where r.renting = true")
     Page<ComicDetailEntity> findComicDetailRenting(Pageable pageable);
+
+    @Query(nativeQuery = true,
+            value = "select distinct cd.* from rent r\n" +
+                    "left join rent_comic_detail rcd on r.id = rcd.rent_id\n" +
+                    "left join comic_detail cd on rcd.comic_detail_id = cd.id\n" +
+                    "left join  comic c on cd.comic_id = c.id\n" +
+                    "where r.id = :rentId\n" +
+                    "and c.id = :comicId")
+    List<ComicDetailEntity> findComicDetailByRentIdAndComicId(Long rentId, Long comicId);
 }

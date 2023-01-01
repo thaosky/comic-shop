@@ -42,7 +42,7 @@ public class ComicDetailService {
         BeanUtils.copyProperties(comicDetail, comicDetailEntity);
         comicDetailEntity.setComicDetailCode(oldestCodeArr[0] + "_" + stt);
 
-        return comicDetailRepository.save(comicDetail);
+        return comicDetailRepository.save(comicDetailEntity);
     }
 
     public ComicDetailEntity update(Long id, ComicDetailEntity comicDetail) throws BusinessException {

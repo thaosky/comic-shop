@@ -28,4 +28,11 @@ public interface ComicRepository extends JpaRepository<ComicEntity, Long> {
             "  and (UPPER(c.comic_code) like CONCAT('%',:comicCode,'%') or :comicCode is null)\n" +
             "  and (UPPER(c.publisher) like CONCAT('%',:publisher,'%') or :publisher is null)")
     Page<ComicEntity> listComic(String name, String comicCode, String category, String author, String publisher, Pageable pageable);
+
+    @Query(nativeQuery = true, value = "select distinct c.* from rent r\n" +
+            "left join rent_comic_detail rcd on r.id = rcd.rent_id\n" +
+            "left join comic_detail cd on rcd.comic_detail_id = cd.id\n" +
+            "left join  comic c on cd.comic_id = c.id" +
+            " where r.id = :rentId")
+    List<ComicEntity> listComicByRentId(Long rentId);
 }
