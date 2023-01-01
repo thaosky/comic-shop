@@ -28,7 +28,7 @@ public class RentController {
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
-    // Update sách
+    // Update phiếu thuê sách
     @PostMapping("/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Rent> createReceipt(@RequestBody Rent rent, @PathVariable Long id) {

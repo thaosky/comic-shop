@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -19,11 +20,14 @@ public class CustomerService {
     CustomerRepository customerRepository;
 
     public Page<CustomerEntity> findListCustomer(String name, String phoneNumber, Integer pageSize, Integer pageNo, String sortName, String sort) {
-        Sort sortable = Sort.by("id").descending();;
-        if(sortName != null && sort.equals("ASC")) {
-            sortable = Sort.by(sortName).ascending();;
+        Sort sortable = Sort.by("id").descending();
+        ;
+        if (sortName != null && sort.equals("ASC")) {
+            sortable = Sort.by(sortName).ascending();
+            ;
         } else if (sortName != null && sort.equals("DESC")) {
-            sortable = Sort.by(sortName).descending();;
+            sortable = Sort.by(sortName).descending();
+            ;
         }
         Pageable pageable = PageRequest.of(pageNo, pageSize, sortable);
         if (name != null) {
@@ -44,6 +48,10 @@ public class CustomerService {
     public CustomerEntity updateCustomer(Long id, CustomerEntity customer) throws BusinessException {
         Optional<CustomerEntity> optional = customerRepository.findById(id);
         CustomerEntity customerEntity = optional.orElseThrow(() -> new BusinessException("Không tìm thấy khách hàng"));
+        CustomerEntity check = customerRepository.getByPhoneNumber(customer.getPhoneNumber());
+        if (check != null && check.getId() != id) {
+            throw new BusinessException("Số điện thoại đã tồn tại");
+        }
         BeanUtils.copyProperties(customer, customerEntity, "id");
         return customerRepository.save(customerEntity);
     }
@@ -51,7 +59,7 @@ public class CustomerService {
     public void deleteCustomer(Long id) throws BusinessException {
         Optional<CustomerEntity> optional = customerRepository.findById(id);
         CustomerEntity customerEntity = optional.orElseThrow(() -> new BusinessException("Không tìm thấy khách hàng"));
-         customerRepository.deleteById(id);
+        customerRepository.deleteById(id);
     }
 
     public CustomerEntity getCustomerById(Long id) throws BusinessException {
@@ -61,14 +69,17 @@ public class CustomerService {
     }
 
     public Page<CustomerEntity> getCustomerRenting(Integer pageSize, Integer pageNo, String sort, String sortName) {
-        Sort sortable = Sort.by("id").descending();;
-        if(sortName != null && sort.equals("ASC")) {
-            sortable = Sort.by(sortName).ascending();;
+        Sort sortable = Sort.by("id").descending();
+        ;
+        if (sortName != null && sort.equals("ASC")) {
+            sortable = Sort.by(sortName).ascending();
+            ;
         } else if (sortName != null && sort.equals("DESC")) {
-            sortable = Sort.by(sortName).descending();;
+            sortable = Sort.by(sortName).descending();
+            ;
         }
         Pageable pageable = PageRequest.of(pageNo, pageSize, sortable);
-        Page<CustomerEntity>  page = customerRepository.findCustomerRenting(pageable);
+        Page<CustomerEntity> page = customerRepository.findCustomerRenting(pageable);
         return page;
     }
 }

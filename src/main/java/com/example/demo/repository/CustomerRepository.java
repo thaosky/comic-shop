@@ -34,4 +34,6 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
     Page<CustomerEntity> findCustomerRenting(Pageable pageable);
 
     boolean existsByPhoneNumber(String phone);
+
+    CustomerEntity getByPhoneNumber(String phone);
 }
