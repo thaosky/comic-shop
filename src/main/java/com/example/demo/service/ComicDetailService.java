@@ -2,11 +2,16 @@ package com.example.demo.service;
 
 import com.example.demo.entity.ComicDetailEntity;
 import com.example.demo.entity.ComicEntity;
+import com.example.demo.entity.CustomerEntity;
 import com.example.demo.exception.BusinessException;
 import com.example.demo.repository.ComicDetailRepository;
 import com.example.demo.repository.ComicRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -61,5 +66,17 @@ public class ComicDetailService {
         } else {
             return comicDetailRepository.findAllByComicIdAndAvailableOrderByIdDesc(comicId, available);
         }
+    }
+
+    public Page<ComicDetailEntity> getComicDetailRenting(Integer pageSize, Integer pageNo, String sort, String sortName) {
+        Sort sortable = Sort.by("id").descending();
+        if(sortName != null && sort.equals("ASC")) {
+            sortable = Sort.by(sortName).ascending();
+        } else if (sortName != null && sort.equals("DESC")) {
+            sortable = Sort.by(sortName).descending();
+        }
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sortable);
+        Page<ComicDetailEntity>  page = comicDetailRepository.findComicDetailRenting(pageable);
+        return page;
     }
 }
