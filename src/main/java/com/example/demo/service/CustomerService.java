@@ -21,13 +21,10 @@ public class CustomerService {
 
     public Page<CustomerEntity> findListCustomer(String name, String phoneNumber, Integer pageSize, Integer pageNo, String sortName, String sort) {
         Sort sortable = Sort.by("id").descending();
-        ;
         if (sortName != null && sort.equals("ASC")) {
             sortable = Sort.by(sortName).ascending();
-            ;
         } else if (sortName != null && sort.equals("DESC")) {
             sortable = Sort.by(sortName).descending();
-            ;
         }
         Pageable pageable = PageRequest.of(pageNo, pageSize, sortable);
         if (name != null) {
