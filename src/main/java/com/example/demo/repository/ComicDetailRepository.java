@@ -56,7 +56,7 @@ public interface ComicDetailRepository extends JpaRepository<ComicDetailEntity, 
                     "         inner join comic c on cd.comic_id = c.id\n" +
                     "group by c.id\n" +
                     "order by totalRent desc\n" +
-                    "LIMIT 10")
+                    "LIMIT 5")
     List<?> topComic();
 
     @Query(nativeQuery = true,
