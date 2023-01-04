@@ -4,16 +4,15 @@ import com.example.demo.entity.ComicDetailEntity;
 import com.example.demo.entity.ComicEntity;
 import com.example.demo.entity.CustomerEntity;
 import com.example.demo.exception.BusinessException;
+import com.example.demo.model.response.Analysis.AnalysisComic;
 import com.example.demo.repository.ComicDetailRepository;
 import com.example.demo.repository.ComicRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,15 +67,19 @@ public class ComicDetailService {
         }
     }
 
-    public Page<ComicDetailEntity> getComicDetailRenting(Integer pageSize, Integer pageNo, String sort, String sortName) {
+    public Page<?> getComicDetailRenting(Integer pageSize, Integer pageNo, String sort, String sortName) {
         Sort sortable = Sort.by("id").descending();
-        if(sortName != null && sort.equals("ASC")) {
+        if (sortName != null && sort.equals("ASC")) {
             sortable = Sort.by(sortName).ascending();
         } else if (sortName != null && sort.equals("DESC")) {
             sortable = Sort.by(sortName).descending();
         }
         Pageable pageable = PageRequest.of(pageNo, pageSize, sortable);
-        Page<ComicDetailEntity>  page = comicDetailRepository.findComicDetailRenting(pageable);
+        Page<?> page = comicDetailRepository.test(pageable);
         return page;
+    }
+
+    public List<?> topComic() {
+       return comicDetailRepository.topComic();
     }
 }
