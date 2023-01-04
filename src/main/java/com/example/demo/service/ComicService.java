@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -64,9 +65,12 @@ public class ComicService {
             comicCode += s.charAt(0);
         }
         comicCode = comicCode.toUpperCase() + time;
-
+        String convertedString =
+                Normalizer
+                        .normalize(comicCode, Normalizer.Form.NFD)
+                        .replaceAll("[^\\p{ASCII}]", "");
+        comic.setComicCode(convertedString);
         ComicEntity comicEntity = comicRepository.save(comic);
-        comicEntity.setComicCode(comicCode);
         Integer quantity = comicEntity.getQuantity();
         List<ComicDetailEntity> list = new ArrayList<>();
         if (quantity != null && quantity > 0) {
