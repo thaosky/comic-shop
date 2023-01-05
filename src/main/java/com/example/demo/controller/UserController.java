@@ -48,7 +48,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> getById(@PathVariable Long id){
+    public ResponseEntity<?> getById(@PathVariable Long id) throws BusinessException {
        UserEntity user = userService.getById(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }

@@ -65,8 +65,8 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public UserEntity getById(Long id) {
-        return userRepository.getById(id);
+    public UserEntity getById(Long id) throws BusinessException {
+        return userRepository.findById(id).orElseThrow(() -> new BusinessException("Không tìm thấy user"));
     }
 
     public void changePassword(ChangePassword request) throws BusinessException {
