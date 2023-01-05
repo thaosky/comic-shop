@@ -5,23 +5,28 @@ import com.example.demo.entity.CustomerEntity;
 import com.example.demo.entity.RoleEntity;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.exception.BusinessException;
+import com.example.demo.model.request.ChangePassword;
 import com.example.demo.model.response.User;
 import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserService {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    PasswordEncoder encoder;
+
 
     public List<User> getListUser(String userName, Integer pageSize, Integer pageNo, String sort, String sortName) {
         Sort sortable = Sort.by("id").descending();
@@ -60,6 +65,24 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public void editUser(Long id) {
+    public UserEntity getById(Long id) {
+        return userRepository.getById(id);
+    }
+
+    public void changePassword(ChangePassword request) throws BusinessException {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<UserEntity> optional = userRepository.findByUsername(username);
+        UserEntity userEntity = optional.orElseThrow(() -> new BusinessException("Không tìm thấy user"));
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String existingPassword =request.getOldPass();
+        String dbPassword       = userEntity.getPassword();
+
+        if (passwordEncoder.matches(existingPassword, dbPassword)) {
+            String save = encoder.encode(request.getNewPass());
+            userEntity.setPassword(save);
+            userRepository.save(userEntity);
+        } else {
+           throw  new BusinessException("Mật khẩu không chính xác");
+        }
     }
 }

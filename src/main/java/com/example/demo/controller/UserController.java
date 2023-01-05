@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import com.example.demo.entity.CustomerEntity;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.exception.BusinessException;
+import com.example.demo.model.request.ChangePassword;
+import com.example.demo.model.response.MessageResponse;
 import com.example.demo.model.response.User;
 import com.example.demo.service.CustomerService;
 import com.example.demo.service.UserService;
@@ -40,8 +42,22 @@ public class UserController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) throws BusinessException {
-      userService.deleteUser(id);
+        userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> getById(@PathVariable Long id){
+       UserEntity user = userService.getById(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @PostMapping("/change-password")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> deleteUser(@RequestBody ChangePassword changePassword) throws BusinessException {
+        userService.changePassword(changePassword);
+        return ResponseEntity.ok(new MessageResponse("Đổi mật khẩu thành công!"));
     }
 
 }
