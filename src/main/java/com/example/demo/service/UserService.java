@@ -84,8 +84,14 @@ public class UserService {
         }
     }
 
-    public UserEntity getUserById(Long id) {
-        return userRepository.getById(id);
+    public UserEntity editUser(UserEntity user) throws BusinessException {
+        Optional<UserEntity> optional = userRepository.findById(user.getId());
+        UserEntity userEntity = optional.orElseThrow(() -> new BusinessException("Không tìm thấy user"));
+        String encode = encoder.encode(user.getPassword());
+        userEntity.setPassword(encode);
+        userEntity.setEmail(user.getEmail());
+        userEntity.setRoles(user.getRoles());
+        return userRepository.save(userEntity);
     }
 
     public void changePass(ChangePassword changePassword) throws BusinessException {
@@ -93,12 +99,11 @@ public class UserService {
         Optional<UserEntity> optional = userRepository.findByUsername(username);
         UserEntity userEntity = optional.orElseThrow(() -> new BusinessException("Không tìm thấy user"));
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String existingPassword = changePassword.getOldPassword();
+        String existingPassword = changePassword.getOldPass();
         String dbPassword = userEntity.getPassword(); // Load hashed DB password
 
         if (passwordEncoder.matches(existingPassword, dbPassword)) {
-            System.out.println(changePassword.getNewPassword());
-            String encode = encoder.encode(changePassword.getNewPassword());
+            String encode = encoder.encode(changePassword.getNewPass());
             userEntity.setPassword(encode);
             userRepository.save(userEntity);
         } else {

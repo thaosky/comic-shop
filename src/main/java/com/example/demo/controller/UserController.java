@@ -58,7 +58,14 @@ public class UserController {
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserEntity> getUserById(@PathVariable Long id) throws BusinessException {
-        UserEntity res = userService.getUserById(id);
+        UserEntity res = userService.getById(id);
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<UserEntity> editUser(@RequestBody UserEntity user) throws BusinessException {
+        UserEntity res = userService.editUser(user);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
