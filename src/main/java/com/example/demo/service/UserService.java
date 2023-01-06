@@ -7,12 +7,11 @@ import com.example.demo.entity.UserEntity;
 import com.example.demo.exception.BusinessException;
 import com.example.demo.model.request.ChangePassword;
 import com.example.demo.model.response.User;
-import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
-import org.springframework.security.core.context.SecurityContext;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,7 +25,6 @@ public class UserService {
     UserRepository userRepository;
     @Autowired
     PasswordEncoder encoder;
-
 
     public List<User> getListUser(String userName, Integer pageSize, Integer pageNo, String sort, String sortName) {
         Sort sortable = Sort.by("id").descending();
@@ -57,7 +55,7 @@ public class UserService {
     public void deleteUser(Long id) throws BusinessException {
         UserEntity user = userRepository.getById(id);
         Set<RoleEntity> role = user.getRoles();
-        for (RoleEntity item: role) {
+        for (RoleEntity item : role) {
             if (item.getName().equals(RoleEnum.ROLE_ADMIN)) {
                 throw new BusinessException("Không thể xóa tài khoản Admin");
             }
@@ -83,6 +81,28 @@ public class UserService {
             userRepository.save(userEntity);
         } else {
            throw  new BusinessException("Mật khẩu không chính xác");
+        }
+    }
+
+    public UserEntity getUserById(Long id) {
+        return userRepository.getById(id);
+    }
+
+    public void changePass(ChangePassword changePassword) throws BusinessException {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<UserEntity> optional = userRepository.findByUsername(username);
+        UserEntity userEntity = optional.orElseThrow(() -> new BusinessException("Không tìm thấy user"));
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String existingPassword = changePassword.getOldPassword();
+        String dbPassword = userEntity.getPassword(); // Load hashed DB password
+
+        if (passwordEncoder.matches(existingPassword, dbPassword)) {
+            System.out.println(changePassword.getNewPassword());
+            String encode = encoder.encode(changePassword.getNewPassword());
+            userEntity.setPassword(encode);
+            userRepository.save(userEntity);
+        } else {
+            throw new BusinessException("Sai mật khẩu");
         }
     }
 }

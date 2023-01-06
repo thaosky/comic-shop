@@ -46,18 +46,20 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> getById(@PathVariable Long id) throws BusinessException {
-       UserEntity user = userService.getById(id);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    // Chỉ xóa user
+    @PostMapping("/change-password")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    public ResponseEntity<?> changePass(@RequestBody ChangePassword changePassword) throws BusinessException {
+        userService.changePass(changePassword);
+        return ResponseEntity.ok(new MessageResponse("Thay đổi password thành công!"));
     }
 
-    @PostMapping("/change-password")
+
+    @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> deleteUser(@RequestBody ChangePassword changePassword) throws BusinessException {
-        userService.changePassword(changePassword);
-        return ResponseEntity.ok(new MessageResponse("Đổi mật khẩu thành công!"));
+    public ResponseEntity<UserEntity> getUserById(@PathVariable Long id) throws BusinessException {
+        UserEntity res = userService.getUserById(id);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
 }
